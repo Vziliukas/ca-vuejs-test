@@ -1,18 +1,52 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <app-aside class="home-aside"/>
+    <div class="home-list">
+      <div class="home-list__item" v-for="(part, index) in parts" :key="index">
+        <app-card :part="part"/>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+import AppCard from '@/components/AppCard'
+import AppAside from '@/components/AppAside'
+import { mapActions, mapGetters } from 'vuex'
 
 export default {
   name: 'home',
   components: {
-    HelloWorld
+    AppCard,
+    AppAside
+  },
+  computed: {
+    ...mapGetters([
+      'parts'
+    ])
+  },
+  created () {
+    this.getParts()
+  },
+  methods: {
+    ...mapActions([
+      'getParts'
+    ])
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.home {
+  display: flex;
+
+  &-list {
+    display: flex;
+    flex-wrap: wrap;
+
+    &__item {
+      flex: 1 0 50%;
+    }
+  }
+}
+</style>
